@@ -23,7 +23,7 @@ const PageType = new GraphQLObjectType({
         },
         image_url: {
             type: GraphQLString
-        },
+        }
     })
 })
 

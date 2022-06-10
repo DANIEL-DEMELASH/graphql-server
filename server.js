@@ -5,7 +5,9 @@ const { GraphQLObjectType, GraphQLSchema, GraphQLInt, GraphQLString, GraphQLList
 const app = express()
 const pageData = require('./page-data.json')
 
-app.listen(2000, ()=>console.log('listening on port 3000'))
+let PORT = 5000;
+
+app.listen(PORT, ()=>console.log(`listening on port ${PORT}`))
 
 const PageType = new GraphQLObjectType({
     name: "page",
@@ -69,6 +71,41 @@ const Mutation = new GraphQLObjectType({
             resolve(parent, args){
                 pageData.push({id: pageData.length + 1, title: args.title, description: args.description, image_url: args.image_url})
                 return args
+            }
+        },
+        updatePage: {
+            type: PageType,
+            args: {
+                id: {
+                    type: GraphQLInt
+                },
+                title: {
+                    type: GraphQLString
+                 },
+                 description: {
+                    type: GraphQLString
+                 },
+                 image_url: {
+                    type: GraphQLString
+                 }
+            },
+            resolve(parent, args){
+                const index = pageData.findIndex((getPage) => args.id == getPage.id);
+                pageData[index].title = args.title;
+                pageData[index].description = args.description;
+                pageData[index].image_url = args.image_url;
+                return args;    
+            }
+        },
+        deletePage: {
+            type: PageType,
+            args: {
+                id: {
+                    type: GraphQLInt
+                }
+            },
+            resolve(parent, args){
+                
             }
         }
     }

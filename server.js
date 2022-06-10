@@ -69,7 +69,7 @@ const Mutation = new GraphQLObjectType({
                  }
             },
             resolve(parent, args){
-                pageData.push({id: pageData.length + 1, title: args.title, description: args.description, image_url: args.image_url})
+                pageData.push({id: pageData[pageData.length-1].id + 1, title: args.title, description: args.description, image_url: args.image_url})
                 return args
             }
         },
@@ -91,9 +91,9 @@ const Mutation = new GraphQLObjectType({
             },
             resolve(parent, args){
                 const index = pageData.findIndex((getPage) => args.id == getPage.id);
-                pageData[index].title = args.title;
-                pageData[index].description = args.description;
-                pageData[index].image_url = args.image_url;
+                pageData[index].title = (args.title == null) ? pageData[index].title : args.title;
+                pageData[index].description = (args.description == null) ? pageData[index].description : args.description;
+                pageData[index].image_url = (args.image_url == null) ? pageData[index].image_url : args.image_url;
                 return args;    
             }
         },
@@ -105,7 +105,9 @@ const Mutation = new GraphQLObjectType({
                 }
             },
             resolve(parent, args){
-                
+                const index = pageData.findIndex((getPage) => args.id == getPage.id);
+                pageData.splice(index, 1)
+                return args
             }
         }
     }
@@ -117,4 +119,3 @@ app.use('/graphql', graphqlHTTP({
     schema,
     graphiql: true
 }))
-

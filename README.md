@@ -1,1 +1,1 @@
-# graphql-server
+this is a simple graphQL server that uses local JSON file

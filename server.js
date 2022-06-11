@@ -6,6 +6,10 @@ const app = express()
 const pageData = require('./page-data.json')
 
 
+app.get("/", (req, res)=>{
+    res.end("Hello!");
+})
+
 app.listen(5000, ()=>console.log(`listening on port 5000`))
 
 const PageType = new GraphQLObjectType({
@@ -119,6 +123,3 @@ app.use('/graphql', graphqlHTTP({
     graphiql: true
 }))
 
-app.get("/", (req, res)=>{
-    res.send("Hello!");
-})

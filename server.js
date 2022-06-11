@@ -5,9 +5,8 @@ const { GraphQLObjectType, GraphQLSchema, GraphQLInt, GraphQLString, GraphQLList
 const app = express()
 const pageData = require('./page-data.json')
 
-let PORT = 5000;
 
-app.listen(PORT, ()=>console.log(`listening on port ${PORT}`))
+app.listen(5000, ()=>console.log(`listening on port 5000`))
 
 const PageType = new GraphQLObjectType({
     name: "page",

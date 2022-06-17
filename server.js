@@ -2,9 +2,9 @@ const express = require("express")
 const { graphqlHTTP } = require("express-graphql")
 const graphql = require("graphql")
 const { GraphQLObjectType, GraphQLSchema, GraphQLInt, GraphQLString, GraphQLList } = graphql
-const app = express()
 const pageData = require('./page-data.json')
 
+const app = express()
 
 app.get("/", (req, res)=>{
     res.end("Hello!");
@@ -72,7 +72,11 @@ const Mutation = new GraphQLObjectType({
                  }
             },
             resolve(parent, args){
+                if(pageData.length > 0)
                 pageData.push({id: pageData[pageData.length-1].id + 1, title: args.title, description: args.description, image_url: args.image_url})
+                else{
+                    pageData.push({id: 1, title: args.title, description: args.description, image_url: args.image_url})
+                }
                 return args
             }
         },
@@ -122,4 +126,3 @@ app.use('/graphql', graphqlHTTP({
     schema,
     graphiql: true
 }))
-
